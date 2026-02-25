@@ -1,33 +1,19 @@
-@ ; Program Penjumlahan Dua Bilangan
-@ ; Mem[14] = 2
-@ ; Mem[15] = 3
-@ ; Mem[13] = hasil
-
-
-@ LOAD 14
-@ ADD 15
-@ STORE 13
-@ HALT
+; ============================================
+; Program Biodata + Penjumlahan Dua Bilangan
+; ============================================
 
 section .data
-	hello:     db 'Hello, World!',10    ; 'Hello, World!' plus a linefeed character
-	helloLen:  equ $-hello             ; Length of the 'Hello world!' string
+    ; -------- Data Penjumlahan --------
+    angka1  dd 2
+    angka2  dd 3
+    hasil   dd 0
 
-section .text
-	global _start
+    teksHasil db "Hasil 2 + 3 = ", 0
+    teksHasilLen equ $ - teksHasil
 
-_start:
-	mov eax,4            ; The system call for write (sys_write)
-	mov ebx,1            ; File descriptor 1 - standard output
-	mov ecx,hello        ; Put the offset of hello in ecx
-	mov edx,helloLen     ; helloLen is a constant, so we don't need to say
-	                     ;  mov edx,[helloLen] to get it's actual value
-	int 80h              ; Call the kernel
-	mov eax,1            ; The system call for exit (sys_exit)
-	mov ebx,0            ; Exit with return "code" of 0 (no error)
-	int 80h;
+    newline db 10
 
-section .data
+    ; -------- Biodata --------
     nama    db "Nama   : Muhammad Mufid Azhar", 10
     namaLen equ $ - nama
 
@@ -37,13 +23,13 @@ section .data
     alamat1 db "Alamat :", 10
     alamat1Len equ $ - alamat1
 
-    alamat2 db "- Jalan Pribadi", 10
+    alamat2 db "- jalan kabel", 10
     alamat2Len equ $ - alamat2
 
-    alamat3 db "- RT/RW 003/005", 10
+    alamat3 db "- RT|RW 04/07", 10
     alamat3Len equ $ - alamat3
 
-    alamat4 db "- Tanah Baru", 10
+    alamat4 db "- Beji", 10
     alamat4Len equ $ - alamat4
 
     alamat5 db "- Beji, Depok", 10
@@ -52,25 +38,62 @@ section .data
     alamat6 db "- Jawa Barat", 10
     alamat6Len equ $ - alamat6
 
+section .bss
+    buffer resb 10      ; buffer untuk konversi angka ke string
+
 section .text
     global _start
 
 _start:
-    ; print nama
+
+    ; =============================
+    ; Proses Penjumlahan
+    ; =============================
+    mov eax, [angka1]
+    add eax, [angka2]
+    mov [hasil], eax
+
+    ; Print teks hasil
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, teksHasil
+    mov edx, teksHasilLen
+    int 0x80
+
+    ; Konversi hasil ke ASCII sederhana (karena hasil 1 digit)
+    mov eax, [hasil]
+    add eax, '0'
+    mov [buffer], eax
+
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, buffer
+    mov edx, 1
+    int 0x80
+
+    ; Print newline
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, newline
+    mov edx, 1
+    int 0x80
+
+    ; =============================
+    ; Print Biodata
+    ; =============================
+
     mov eax, 4
     mov ebx, 1
     mov ecx, nama
     mov edx, namaLen
     int 0x80
 
-    ; print usia
     mov eax, 4
     mov ebx, 1
     mov ecx, usia
     mov edx, usiaLen
     int 0x80
 
-    ; print alamat
     mov eax, 4
     mov ebx, 1
     mov ecx, alamat1
@@ -107,7 +130,7 @@ _start:
     mov edx, alamat6Len
     int 0x80
 
-    ; exit
+    ; Exit
     mov eax, 1
     xor ebx, ebx
     int 0x80
