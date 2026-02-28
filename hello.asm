@@ -1,9 +1,9 @@
-; ============================================
+
 ; Program Biodata + Penjumlahan Dua Bilangan
-; ============================================
+
 
 section .data
-    ; -------- Data Penjumlahan --------
+    ; Data Penjumlahan
     angka1  dd 2
     angka2  dd 3
     hasil   dd 0
@@ -13,7 +13,7 @@ section .data
 
     newline db 10
 
-    ; -------- Biodata --------
+    ; Biodata 
     nama    db "Nama   : Muhammad Mufid Azhar", 10
     namaLen equ $ - nama
 
@@ -46,9 +46,7 @@ section .text
 
 _start:
 
-    ; =============================
     ; Proses Penjumlahan
-    ; =============================
     mov eax, [angka1]
     add eax, [angka2]
     mov [hasil], eax
@@ -78,9 +76,7 @@ _start:
     mov edx, 1
     int 0x80
 
-    ; =============================
     ; Print Biodata
-    ; =============================
 
     mov eax, 4
     mov ebx, 1
