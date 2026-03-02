@@ -1,7 +1,4 @@
-
 ; Program Biodata + Penjumlahan Dua Bilangan
-
-
 section .data
     ; Data Penjumlahan
     angka1  dd 2
@@ -17,7 +14,7 @@ section .data
     nama    db "Nama   : Muhammad Mufid Azhar", 10
     namaLen equ $ - nama
 
-    usia    db "Usia   : 18", 10
+    usia    db "Usia   : 19", 10
     usiaLen equ $ - usia
 
     alamat1 db "Alamat :", 10
