@@ -20,7 +20,7 @@ section .data
     alamat1 db "Alamat :", 10
     alamat1Len equ $ - alamat1
 
-    alamat2 db "- jalan kabel", 10
+    alamat2 db "- jalan Pribadi", 10
     alamat2Len equ $ - alamat2
 
     alamat3 db "- RT|RW 04/07", 10
